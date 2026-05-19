@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsPi Business</title>
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center; padding-top: 100px; background-color: #f4f4f9;">
+    <h2>WhatsPi Business</h2>
+    <p id="status">Connecting to Pi Network...</p>
+    <script>
+        window.onload = function() {
+            if (window.Pi) {
+                Pi.init({ version: "2.0", sandbox: true });
+                Pi.authenticate(['username'], function(p) {})
+                .then(function(auth) {
+                    document.getElementById('status').innerText = "Welcome, " + auth.user.username;
+                })
+                .catch(function(e) {
+                    document.getElementById('status').innerText = "Ready for Pi Verification";
+                });
+            }
+        };
+    </script>
+</body>
+</html>
