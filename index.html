@@ -12,45 +12,25 @@
 
     <script>
         window.onload = function() {
-            const mockAuthResult = {
-                accessToken: "mock_access_token_for_verification_success_12345",
-                user: {
-                    uid: "mock_uid_developer",
-                    username: "TestDeveloper",
-                    roles: ["developer"]
-                }
-            };
-
-            function forceSuccess() {
-                document.getElementById('status').innerText = "Welcome, " + mockAuthResult.user.username;
-                if (window.parent && window.parent.postMessage) {
-                    window.parent.postMessage({ type: "pi_auth_success", data: mockAuthResult }, "*");
-                }
-            }
-
-            try {
-                if (window.Pi) {
+            if (window.Pi) {
+                try {
                     Pi.init({ version: "2.0", sandbox: true });
                     
-                    Pi.authenticate(['username'], function(p) {
-                        forceSuccess();
+                    Pi.authenticate(['username'], function(onIncompletePaymentFound) {
+                        console.log("Incomplete payment found");
                     })
                     .then(function(auth) {
-                        forceSuccess();
+                        document.getElementById('status').innerText = "Welcome, " + auth.user.username;
                     })
-                    .catch(function(e) {
-                        forceSuccess();
+                    .catch(function(error) {
+                        document.getElementById('status').innerText = "Sandbox Auth Initialized";
                     });
-
-                    forceSuccess();
-                } else {
-                    forceSuccess();
+                } catch (e) {
+                    document.getElementById('status').innerText = "Initialization Error";
                 }
-            } catch (error) {
-                forceSuccess();
+            } else {
+                document.getElementById('status').innerText = "Pi SDK Missing";
             }
-            
-            setTimeout(forceSuccess, 500);
         };
     </script>
 </body>
