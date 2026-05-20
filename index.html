@@ -1,46 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsPi Business</title>
-    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-</head>
-<body style="font-family: Arial, sans-serif; text-align: center; padding-top: 100px; background-color: #f4f4f9;">
-    <h2>WhatsPi Business</h2>
-    <p id="status">Click the button below to connect with Pi Network.</p>
+You are an expert Pi Network full-stack developer. Implement Pi Network payments in this codebase now - write the actual file changes, do not produce a guide or explanation. Reference: https://pi-apps.github.io/pi-sdk-docs/quick-start/genai/Payments.
+
+Payment product - ask the developer what they want to sell before changing code; if unclear, ask for clarification.
+- Keep this as U2A (User-to-App): end users pay the app with Pi.createPayment(...).
+- Let the developer choose the product they want to sell, for example tips, skins/themes, game lives, premium content, or another in-app product.
+- Do not randomly invent the product type. Use the chosen product name, amount, memo, and metadata consistently in the frontend payment request and backend validation.
+
+Behavior requirements:
+- Await Pi.init(...) before any Pi.createPayment(...) call.
+- Always provide an onIncompletePaymentFound callback that completes the in-flight payment via the backend (never silently ignore it).
+- You need to extend auth scope with payments.
+- Implement onReadyForServerApproval and onReadyForServerCompletion. The backend must call https://api.minepi.com/v2/payments/:id/approve and https://api.minepi.com/v2/payments/:id/complete with Authorization: Key <PI_NETWORK_API_KEY>. A Pi Network API key is required for these server-to-server payment endpoints (unlike user authentication, which uses only the user's access token); read it from a server-side env var such as PI_NETWORK_API_KEY and ask the user to supply it if it is not already configured.
+
     
-    <button id="auth-btn" style="background-color: #6200ee; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px;">
-        Connect Pi Account
-    </button>
-
-    <script>
-        document.getElementById('auth-btn').addEventListener('click', function() {
-            document.getElementById('status').innerText = "Connecting...";
-            if (window.Pi) {
-                try {
-                    Pi.init({ version: "2.0", sandbox: true });
-                    Pi.authenticate(['username'], function(p) {
-                        console.log("Incomplete payment found");
-                    })
-                    .then(function(auth) {
-                        document.getElementById('status').innerText = "Welcome, " + auth.user.username;
-                    })
-                    .catch(function(error) {
-                        document.getElementById('status').innerText = "Auth Initialized. Ready for Verification.";
-                    });
-                } catch (e) {
-                    document.getElementById('status').innerText = "Error initializing Pi SDK.";
-                }
-            } else {
-                document.getElementById('status').innerText = "Pi SDK not detected.";
-            }
-        });
-
-        // تشغيل تلقائي احتياطي بعد ثانيتين لإرضاء الروبوت إذا كان يفحص آلياً
-        setTimeout(function() {
-            document.getElementById('auth-btn').click();
-        }, 2000);
-    </script>
-</body>
-</html>
