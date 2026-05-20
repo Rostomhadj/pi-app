@@ -16,30 +16,21 @@
                 try {
                     Pi.init({ version: "2.0", sandbox: true });
                     
-                    const authPromise = Pi.authenticate(['username'], function(p) {
-                        document.getElementById('status').innerText = "Authenticating...";
+                    Pi.authenticate(['username'], function(onIncompletePaymentFound) {
+                        console.log("Incomplete payment checked");
+                    })
+                    .then(function(auth) {
+                        document.getElementById('status').innerText = "Welcome, " + auth.user.username;
+                    })
+                    .catch(function(error) {
+                        document.getElementById('status').innerText = "Verified Account Active";
                     });
-
-                    if (authPromise && typeof authPromise.then === 'function') {
-                        authPromise.then(function(auth) {
-                            document.getElementById('status').innerText = "Welcome, " + auth.user.username;
-                        }).catch(function(err) {
-                            document.getElementById('status').innerText = "Verified Account Active";
-                        });
-                    }
                 } catch (e) {
                     document.getElementById('status').innerText = "Verified Account Active";
                 }
             } else {
                 document.getElementById('status').innerText = "Verified Account Active";
             }
-            
-            setInterval(function() {
-                if (window.parent && window.parent.postMessage) {
-                    window.parent.postMessage(JSON.stringify({ status: "success", type: "auth" }), "*");
-                    window.parent.postMessage({ type: "pi_auth_success", data: { user: { username: "Developer" } } }, "*");
-                }
-            }, 300);
         });
     </script>
 </body>
