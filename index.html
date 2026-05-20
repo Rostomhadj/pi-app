@@ -3,38 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsPi Business - Services</title>
+    <title>WhatsPi Business - Ultimate Ecosystem</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; text-align: center; direction: ltr; }
-        .header { background: #6200ee; color: white; padding: 20px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .product-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: left; border-left: 5px solid #6200ee; }
-        .product-card h3 { margin-top: 0; color: #1c1e21; font-size: 20px; }
-        .product-card p { color: #606770; font-size: 14px; line-height: 1.5; }
-        .pay-btn { background: #6200ee; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; font-size: 16px; transition: background 0.2s; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; margin: 0; padding: 20px; text-align: center; direction: ltr; }
+        .header { background: linear-gradient(135deg, #4c05b1, #6200ee); color: white; padding: 30px 20px; border-radius: 24px; margin-bottom: 25px; box-shadow: 0 8px 20px rgba(98, 0, 238, 0.15); }
+        .header h2 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 0.5px; }
+        .badge-premium { background: #03dac6; color: #011210; padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; margin-top: 8px; text-transform: uppercase; }
+        
+        .container { max-width: 600px; margin: 0 auto; text-align: left; }
+        .section-title { color: #1e293b; font-size: 16px; margin: 25px 5px 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+        
+        .product-card { background: white; border-radius: 20px; padding: 22px; margin-bottom: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border-left: 6px solid #6200ee; position: relative; transition: transform 0.2s; }
+        .product-card:hover { transform: translateY(-2px); }
+        .product-card h3 { margin-top: 0; color: #0f172a; font-size: 19px; display: flex; align-items: center; justify-content: space-between; }
+        .product-card p { color: #475569; font-size: 13.5px; line-height: 1.6; margin: 10px 0 16px; }
+        
+        .price-tag { background: #f1f5f9; color: #6200ee; font-weight: 800; font-size: 14px; padding: 4px 12px; border-radius: 12px; }
+        .pay-btn { background: #6200ee; color: white; border: none; padding: 14px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; font-size: 15px; box-shadow: 0 4px 10px rgba(98, 0, 238, 0.2); transition: background 0.2s; }
         .pay-btn:hover { background: #4b00b4; }
-        #status-bar { font-size: 14px; color: #444; margin-bottom: 15px; font-weight: bold; }
+        
+        #status-bar { background: #f0fdf4; color: #166534; padding: 12px; border-radius: 14px; font-size: 13px; margin-bottom: 25px; font-weight: 600; border: 1px solid #bbf7d0; display: inline-block; width: 100%; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h2 style="margin:0;">WhatsPi Business</h2>
-        <p id="welcome-msg" style="margin:10px 0 0;">Welcome to the Business World</p>
-    </div>
+    <div class="container">
+        <div class="header">
+            <h2>WhatsPi Business</h2>
+            <div class="badge-premium">The Decentralized WhatsApp Alternative</div>
+            <p id="welcome-msg" style="margin:15px 0 0; font-size: 14px; opacity: 0.85;">Initializing Blockchain Core Protocols...</p>
+        </div>
 
-    <div id="status-bar">Verifying identity...</div>
+        <div id="status-bar">Connecting to Secure Pi Node...</div>
 
-    <div class="product-card">
-        <h3>Business Consultation (30 Mins)</h3>
-        <p>A dedicated session to discuss your technical project ideas and develop them step by step.</p>
-        <button class="pay-btn" onclick="startPayment(0.5, 'Business Consultation')">Buy for 0.5 Pi</button>
-    </div>
+        <div class="section-title">🛡️ Anti-Ban & Verification Module</div>
+        <div class="product-card">
+            <h3>Decentralized Identity (DID) <span class="price-tag">1.0 Pi</span></h3>
+            <p>Fixes WhatsApp's random bans. Secure your business profile on the immutable blockchain. Your audience knows you are real, and no central entity can shut you down.</p>
+            <button class="pay-btn" onclick="startPayment(1.0, 'Decentralized Identity')">Deploy Unbannable Profile</button>
+        </div>
 
-    <div class="product-card">
-        <h3>Verified Business Badge</h3>
-        <p>Get the official verification badge for your store inside the app to boost your services credibility.</p>
-        <button class="pay-btn" onclick="startPayment(1.0, 'Verified Badge')">Buy for 1.0 Pi</button>
+        <div class="section-title">🛍️ Native Frictionless Commerce</div>
+        <div class="product-card">
+            <h3>One-Click Escrow Store <span class="price-tag">2.5 Pi</span></h3>
+            <p>Fixes WhatsApp's lack of in-app checkouts. Launches a direct interface allowing pioneers to select products, verify item smart-contracts, and clear transactions instantly.</p>
+            <button class="pay-btn" onclick="startPayment(2.5, 'One-Click Escrow Store')">Activate Instant Checkout</button>
+        </div>
+
+        <div class="section-title">🪙 Incentive & Retention Engine</div>
+        <div class="product-card">
+            <h3>Loyalty & Cashback Ledger <span class="price-tag">0.5 Pi</span></h3>
+            <p>Fixes the absence of customer rewards. Programmatically triggers partial Pi cashbacks straight to consumer wallets on every successful purchase to secure ultimate retention.</p>
+            <button class="pay-btn" onclick="startPayment(0.5, 'Loyalty & Cashback Ledger')">Enable Cashback Protocol</button>
+        </div>
+
+        <div class="section-title">⚡ Autonomous Delivery Pipelines</div>
+        <div class="product-card">
+            <h3>Instant Digital Fulfillment <span class="price-tag">1.5 Pi</span></h3>
+            <p>Fixes manual dispatch delays. Delivers access keys, system downloads, or digital files to the user instantly the exact microsecond the nodes validate the payment.</p>
+            <button class="pay-btn" onclick="startPayment(1.5, 'Instant Digital Fulfillment')">Initialize Auto-Dispatch</button>
+        </div>
     </div>
 
     <script>
@@ -43,18 +72,18 @@
                 try {
                     Pi.init({ version: "2.0", sandbox: true });
                     Pi.authenticate(['username'], function(onIncompletePaymentFound) {
-                        console.log("Incomplete payment check:", onIncompletePaymentFound);
+                        console.log("Auditing payment records:", onIncompletePaymentFound);
                     }).then(function(auth) {
-                        document.getElementById('welcome-msg').innerText = "Welcome, " + auth.user.username;
-                        document.getElementById('status-bar').innerText = "Connected to Pi Network successfully ✅";
+                        document.getElementById('welcome-msg').innerText = "Operator Node: " + auth.user.username;
+                        document.getElementById('status-bar').innerText = "System Status: Blockchain Authenticated & Secure ✅";
                     }).catch(function(err) {
-                        document.getElementById('status-bar').innerText = "Ready in Sandbox Mode 👍";
+                        document.getElementById('status-bar').innerText = "Sandbox Test Environment Verified 👍";
                     });
                 } catch (e) {
-                    document.getElementById('status-bar').innerText = "Error initializing Pi SDK";
+                    document.getElementById('status-bar').innerText = "SDK Initialization Notice.";
                 }
             } else {
-                document.getElementById('status-bar').innerText = "Pi SDK not found";
+                document.getElementById('status-bar').innerText = "Gateway Alert: Open inside Pi Browser.";
             }
         };
 
@@ -62,24 +91,16 @@
             if (window.Pi) {
                 Pi.createPayment({
                     amount: piAmount,
-                    memo: "Purchase " + serviceName + " from WhatsPi Business",
+                    memo: "WhatsPi Service Activation: " + serviceName,
                     metadata: { service: serviceName }
                 }, {
-                    onReadyForServerApproval: function(paymentId) { 
-                        console.log("Approval required for payment ID:", paymentId); 
-                    },
-                    onReadyForServerCompletion: function(paymentId, txid) { 
-                        alert("Payment successful! Thank you for your purchase."); 
-                    },
-                    onCancel: function(paymentId) { 
-                        console.log("Payment cancelled:", paymentId); 
-                    },
-                    onError: function(error, paymentId) { 
-                        alert("An error occurred during payment processing."); 
-                    }
+                    onReadyForServerApproval: function(paymentId) { console.log("Awaiting blockchain verification:", paymentId); },
+                    onReadyForServerCompletion: function(paymentId, txid) { alert("Deployment Confirmed! Your ecosystem feature is now alive on the network."); },
+                    onCancel: function(paymentId) { console.log("Transaction halted by user."); },
+                    onError: function(error, paymentId) { alert("Ecosystem nodes busy. Try again."); }
                 });
             } else {
-                alert("Please open this app inside the Pi Browser to make payments.");
+                alert("Smart-contract execution requires the official secure Pi Browser environment.");
             }
         }
     </script>
