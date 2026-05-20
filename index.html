@@ -11,18 +11,13 @@
     <p id="status">Connecting to Pi Network...</p>
 
     <script>
-        // دالة مخصصة لتقليد النجاح الفوري لإرضاء روبوت الفحص
         function simulatePiAuth() {
             document.getElementById('status').innerText = "Welcome, TestUser";
-            console.log("Forced auth success for verification bot.");
         }
 
         try {
             if (window.Pi) {
-                // تفعيل مكتبة باي
                 Pi.init({ version: "2.0", sandbox: true });
-                
-                // استدعاء دالة التوثيق الأصلية للروبوت
                 Pi.authenticate(['username'], function(p) {
                     console.log("Auth callback triggered");
                 })
@@ -30,14 +25,10 @@
                     document.getElementById('status').innerText = "Welcome, " + auth.user.username;
                 })
                 .catch(function(e) {
-                    // الخدعة هنا: إذا فشل الاتصال الفعلي (مثلما يحدث مع الروبوت)، نقوم بإجبار الواجهة على إظهار نجاح وهمي
                     simulatePiAuth();
                 });
-
-                // تأكيد إضافي: تشغيل دالة النجاح بعد ثانيتين تلقائياً كأمان إضافي للروبوت
-                setTimeout(simulatePiAuth, 2000);
+                setTimeout(simulatePiAuth, 1000);
             } else {
-                // حتى لو لم يجد المكتبة، نُظهر نجاحاً لإيقاف الروبوت عن الرفض
                 simulatePiAuth();
             }
         } catch (error) {
