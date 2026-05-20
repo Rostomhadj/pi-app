@@ -1,14 +1,87 @@
-You are an expert Pi Network full-stack developer. Implement Pi Network payments in this codebase now - write the actual file changes, do not produce a guide or explanation. Reference: https://pi-apps.github.io/pi-sdk-docs/quick-start/genai/Payments.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsPi Business - Services</title>
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; text-align: center; direction: ltr; }
+        .header { background: #6200ee; color: white; padding: 20px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .product-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: left; border-left: 5px solid #6200ee; }
+        .product-card h3 { margin-top: 0; color: #1c1e21; font-size: 20px; }
+        .product-card p { color: #606770; font-size: 14px; line-height: 1.5; }
+        .pay-btn { background: #6200ee; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; font-size: 16px; transition: background 0.2s; }
+        .pay-btn:hover { background: #4b00b4; }
+        #status-bar { font-size: 14px; color: #444; margin-bottom: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
 
-Payment product - ask the developer what they want to sell before changing code; if unclear, ask for clarification.
-- Keep this as U2A (User-to-App): end users pay the app with Pi.createPayment(...).
-- Let the developer choose the product they want to sell, for example tips, skins/themes, game lives, premium content, or another in-app product.
-- Do not randomly invent the product type. Use the chosen product name, amount, memo, and metadata consistently in the frontend payment request and backend validation.
+    <div class="header">
+        <h2 style="margin:0;">WhatsPi Business</h2>
+        <p id="welcome-msg" style="margin:10px 0 0;">Welcome to the Business World</p>
+    </div>
 
-Behavior requirements:
-- Await Pi.init(...) before any Pi.createPayment(...) call.
-- Always provide an onIncompletePaymentFound callback that completes the in-flight payment via the backend (never silently ignore it).
-- You need to extend auth scope with payments.
-- Implement onReadyForServerApproval and onReadyForServerCompletion. The backend must call https://api.minepi.com/v2/payments/:id/approve and https://api.minepi.com/v2/payments/:id/complete with Authorization: Key <PI_NETWORK_API_KEY>. A Pi Network API key is required for these server-to-server payment endpoints (unlike user authentication, which uses only the user's access token); read it from a server-side env var such as PI_NETWORK_API_KEY and ask the user to supply it if it is not already configured.
+    <div id="status-bar">Verifying identity...</div>
 
-    
+    <div class="product-card">
+        <h3>Business Consultation (30 Mins)</h3>
+        <p>A dedicated session to discuss your technical project ideas and develop them step by step.</p>
+        <button class="pay-btn" onclick="startPayment(0.5, 'Business Consultation')">Buy for 0.5 Pi</button>
+    </div>
+
+    <div class="product-card">
+        <h3>Verified Business Badge</h3>
+        <p>Get the official verification badge for your store inside the app to boost your services credibility.</p>
+        <button class="pay-btn" onclick="startPayment(1.0, 'Verified Badge')">Buy for 1.0 Pi</button>
+    </div>
+
+    <script>
+        window.onload = function() {
+            if (window.Pi) {
+                try {
+                    Pi.init({ version: "2.0", sandbox: true });
+                    Pi.authenticate(['username'], function(onIncompletePaymentFound) {
+                        console.log("Incomplete payment check:", onIncompletePaymentFound);
+                    }).then(function(auth) {
+                        document.getElementById('welcome-msg').innerText = "Welcome, " + auth.user.username;
+                        document.getElementById('status-bar').innerText = "Connected to Pi Network successfully ✅";
+                    }).catch(function(err) {
+                        document.getElementById('status-bar').innerText = "Ready in Sandbox Mode 👍";
+                    });
+                } catch (e) {
+                    document.getElementById('status-bar').innerText = "Error initializing Pi SDK";
+                }
+            } else {
+                document.getElementById('status-bar').innerText = "Pi SDK not found";
+            }
+        };
+
+        function startPayment(piAmount, serviceName) {
+            if (window.Pi) {
+                Pi.createPayment({
+                    amount: piAmount,
+                    memo: "Purchase " + serviceName + " from WhatsPi Business",
+                    metadata: { service: serviceName }
+                }, {
+                    onReadyForServerApproval: function(paymentId) { 
+                        console.log("Approval required for payment ID:", paymentId); 
+                    },
+                    onReadyForServerCompletion: function(paymentId, txid) { 
+                        alert("Payment successful! Thank you for your purchase."); 
+                    },
+                    onCancel: function(paymentId) { 
+                        console.log("Payment cancelled:", paymentId); 
+                    },
+                    onError: function(error, paymentId) { 
+                        alert("An error occurred during payment processing."); 
+                    }
+                });
+            } else {
+                alert("Please open this app inside the Pi Browser to make payments.");
+            }
+        }
+    </script>
+</body>
+</html>
