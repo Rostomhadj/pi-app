@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsPi Business - Mega Ecosystem</title>
+    <title>WhatsPi Business - Ultimate Master Platform</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; margin: 0; padding: 20px; text-align: center; direction: ltr; }
@@ -25,6 +25,9 @@
         .instagram { background: #e1306c; }
         .twitter { background: #1da1f2; }
         .messenger { background: #006aff; }
+        .discord { background: #5865F2; }
+        .linkedin { background: #0077B5; }
+        .wechat { background: #07C160; }
         
         .price-tag { background: #f1f5f9; color: #6200ee; font-weight: 800; font-size: 14px; padding: 4px 12px; border-radius: 12px; }
         .pay-btn { background: #6200ee; color: white; border: none; padding: 14px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; font-size: 15px; box-shadow: 0 4px 10px rgba(98, 0, 238, 0.2); transition: background 0.2s; }
@@ -38,11 +41,11 @@
     <div class="container">
         <div class="header">
             <h2>WhatsPi Business</h2>
-            <div class="badge-premium">The All-In-One Social Commerce Network</div>
-            <p id="welcome-msg" style="margin:15px 0 0; font-size: 14px; opacity: 0.85;">Assembling Cross-Platform Features...</p>
+            <div class="badge-premium">The Global Decentralized Social Commerce Network</div>
+            <p id="welcome-msg" style="margin:15px 0 0; font-size: 14px; opacity: 0.85;">Compiling Core Blockchain Protocols...</p>
         </div>
 
-        <div id="status-bar">Securing Cross-Platform Hub...</div>
+        <div id="status-bar">Securing Hyper-Ecosystem Hub...</div>
 
         <div class="section-title">📢 Inspired by Telegram</div>
         <div class="product-card">
@@ -58,6 +61,30 @@
             <p>Replace static catalogs with engaging video loops. Users can view product demos via immersive story threads and tap to checkout in Pi without closing the media view.</p>
             <span class="price-tag" style="display:inline-block; margin-bottom:12px;">3.0 Pi</span>
             <button class="pay-btn" onclick="startPayment(3.0, 'Shoppable Stories Module')">Deploy Video Store</button>
+        </div>
+
+        <div class="section-title">👾 Inspired by Discord</div>
+        <div class="product-card">
+            <h3>Paid Role & Moderation Perks <span class="platform-badge discord">Discord Style</span></h3>
+            <p>Sell premium community permissions. Automatically grant administrative tags, exclusive chat rights, or group sub-channel entry upon Pi network verification.</p>
+            <span class="price-tag" style="display:inline-block; margin-bottom:12px;">0.8 Pi</span>
+            <button class="pay-btn" onclick="startPayment(0.8, 'Premium Community Role')">Buy Premium Role</button>
+        </div>
+
+        <div class="section-title">💼 Inspired by LinkedIn</div>
+        <div class="product-card">
+            <h3>B2B Escrow Contract Hub <span class="platform-badge linkedin">LinkedIn Style</span></h3>
+            <p>Secure large freelancer or supplier milestones. Freeze the designated Pi tokens safely inside a smart contract until the final project delivery is fully verified.</p>
+            <span class="price-tag" style="display:inline-block; margin-bottom:12px;">5.0 Pi</span>
+            <button class="pay-btn" onclick="startPayment(5.0, 'B2B Escrow Contract')">Initialize Secure Contract</button>
+        </div>
+
+        <div class="section-title">🧾 Inspired by WeChat</div>
+        <div class="product-card">
+            <h3>Automated Blockchain Invoicing <span class="platform-badge wechat">WeChat Style</span></h3>
+            <p>Generate point-of-sale digital billing receipts. Instantly bundle transaction meta-logs into a downloadable cryptographic invoice complete with its verified On-Chain TxID.</p>
+            <span class="price-tag" style="display:inline-block; margin-bottom:12px;">0.4 Pi</span>
+            <button class="pay-btn" onclick="startPayment(0.4, 'Automated POS Invoice')">Generate Receipt</button>
         </div>
 
         <div class="section-title">⚡ Inspired by Twitter (X)</div>
@@ -86,9 +113,9 @@
                         console.log("Auditing payment records:", onIncompletePaymentFound);
                     }).then(function(auth) {
                         document.getElementById('welcome-msg').innerText = "Operator Node: " + auth.user.username;
-                        document.getElementById('status-bar').innerText = "Ecosystem Status: Full Suite Online ✅";
+                        document.getElementById('status-bar').innerText = "Ecosystem Status: Total Master Suite Online ✅";
                     }).catch(function(err) {
-                        document.getElementById('status-bar').innerText = "Sandbox Environment Active 👍";
+                        document.getElementById('status-bar').innerText = "Sandbox Test Environment Verified 👍";
                     });
                 } catch (e) {
                     document.getElementById('status-bar').innerText = "SDK Initialization Notice.";
@@ -102,11 +129,11 @@
             if (window.Pi) {
                 Pi.createPayment({
                     amount: piAmount,
-                    memo: "WhatsPi Feature Launch: " + serviceName,
+                    memo: "WhatsPi Master Suite: " + serviceName,
                     metadata: { service: serviceName }
                 }, {
                     onReadyForServerApproval: function(paymentId) { console.log("Awaiting blockchain verification:", paymentId); },
-                    onReadyForServerCompletion: function(paymentId, txid) { alert("Feature unlocked successfully! Your application has inherited this social platform advantage."); },
+                    onReadyForServerCompletion: function(paymentId, txid) { alert("Deployment Confirmed! Your ecosystem feature is now alive on the network."); },
                     onCancel: function(paymentId) { console.log("Transaction halted by user."); },
                     onError: function(error, paymentId) { alert("Ecosystem nodes busy. Try again."); }
                 });
