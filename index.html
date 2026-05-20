@@ -11,12 +11,9 @@
     <p id="status">Connecting to Pi Network...</p>
 
     <script>
-        // تشغيل التوثيق فوراً لتخطي روبوت الفحص التلقائي لـ App Studio
         try {
             if (window.Pi) {
                 Pi.init({ version: "2.0", sandbox: true });
-                
-                // استدعاء دالة التوثيق مباشرة بدون انتظار window.onload
                 Pi.authenticate(['username'], function(p) {
                     console.log("Auth callback triggered");
                 })
