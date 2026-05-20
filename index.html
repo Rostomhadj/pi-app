@@ -8,37 +8,26 @@
 </head>
 <body style="font-family: Arial, sans-serif; text-align: center; padding-top: 100px; background-color: #f4f4f9;">
     <h2>WhatsPi Business</h2>
-    <p id="status">Connecting to Pi Network...</p>
+    <p id="status">Application Ready for Pi Network</p>
 
     <script>
-        function triggerPiAuth() {
+        window.onload = function() {
             if (window.Pi) {
                 try {
                     Pi.init({ version: "2.0", sandbox: true });
                     Pi.authenticate(['username'], function(p) {
-                        console.log("Incomplete payments checked");
-                    }).then(function(auth) {
-                        document.getElementById('status').innerText = "Welcome, Developer";
-                    }).catch(function(err) {
-                        document.getElementById('status').innerText = "Verified Account Active";
+                        console.log("Payment flow initialized");
+                    })
+                    .then(function(auth) {
+                        document.getElementById('status').innerText = "Connected: " + auth.user.username;
+                    })
+                    .catch(function(err) {
+                        console.log("Auth pending closure");
                     });
                 } catch (e) {
-                    document.getElementById('status').innerText = "Verified Account Active";
+                    console.error(e);
                 }
             }
-        }
-
-        window.onload = function() {
-            triggerPiAuth();
-            
-            // إرسال نبضات نجاح متكررة ومباشرة لكسر حظر CORS الخاص بروبوت الفحص
-            setInterval(function() {
-                triggerPiAuth();
-                if (window.parent && window.parent.postMessage) {
-                    window.parent.postMessage({ type: "pi_auth_success", data: { accessToken: "mock_123", user: { username: "Developer" } } }, "*");
-                    window.parent.postMessage(JSON.stringify({ status: "success", type: "auth" }), "*");
-                }
-            }, 250);
         };
     </script>
 </body>
