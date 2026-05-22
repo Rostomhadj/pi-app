@@ -3,53 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsPi for Digital Platforms</title>
+    <title>WhatsPi Business Premium</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafd; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 600px; width: 100%; background: #ffffff; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .header { text-align: center; margin-bottom: 30px; }
-        .header h2 { color: #8c208c; margin: 0 0 5px 0; font-size: 28px; }
-        .header p { color: #666; margin: 0; font-size: 14px; }
-        .card { background: #ffffff; border: 1px solid #f0f0f0; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: flex; flex-direction: column; }
-        .card-title { font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .card-description { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 15px; }
-        .price-tag { display: inline-block; background: #fdf4ff; color: #8c208c; padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 14px; margin-bottom: 12px; width: fit-content; }
-        .btn { background: #8c208c; color: #ffffff; border: none; padding: 12px 20px; font-size: 15px; font-weight: 600; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
-        .btn:hover { background: #701a70; }
+        :root {
+            --bg-color: #0A192F;
+            --card-bg: #112240;
+            --accent-color: #00FFEA;
+            --text-main: #64FFDA;
+            --text-light: #CCD6F6;
+            --text-gray: #8892B0;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-light);
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        
+        .container { 
+            max-width: 650px; 
+            width: 100%; 
+            background: var(--card-bg); 
+            padding: 30px; 
+            border-radius: 24px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            box-sizing: border-box;
+        }
+        
+        .header { text-align: center; margin-bottom: 35px; }
+        .header h2 { color: var(--accent-color); margin: 0 0 10px 0; font-size: 32px; font-weight: 800; letter-spacing: 0.5px; }
+        .header p { color: var(--text-gray); margin: 0; font-size: 15px; line-height: 1.6; }
+        
+        /* Search and Filter Section */
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(2, 12, 27, 0.7);
+            border: 1px solid var(--text-gray);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 15px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-box:focus { border-color: var(--accent-color); }
+        
+        /* Product Cards */
+        .card { 
+            background: rgba(2, 12, 27, 0.4); 
+            border: 1px solid rgba(136, 146, 176, 0.2); 
+            border-radius: 18px; 
+            padding: 22px; 
+            margin-bottom: 20px; 
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex; 
+            flex-direction: column; 
+        }
+        .card:hover { 
+            transform: translateY(-3px); 
+            border-color: rgba(0, 255, 234, 0.4); 
+        }
+        .card-title { font-size: 20px; font-weight: 700; color: var(--text-main); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .card-description { font-size: 14.5px; color: var(--text-gray); line-height: 1.6; margin-bottom: 18px; }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .price-tag { background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 14px; }
+        
+        .btn { 
+            background: transparent; 
+            color: var(--accent-color); 
+            border: 2px solid var(--accent-color); 
+            padding: 14px 24px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            text-align: center; 
+            margin-top: 10px;
+            position: relative;
+        }
+        .btn:hover { background: rgba(0, 255, 234, 0.1); box-shadow: 0 0 15px rgba(0, 255, 234, 0.2); }
+        .btn:disabled { border-color: var(--text-gray); color: var(--text-gray); cursor: not-allowed; background: transparent; }
+
+        /* Trust & Analytics Section */
+        .trust-badge {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(2, 12, 27, 0.6);
+            padding: 15px;
+            border-radius: 14px;
+            margin-top: 30px;
+            border: 1px solid rgba(136, 146, 176, 0.1);
+            text-align: center;
+        }
+        .trust-item div:first-child { font-size: 18px; font-weight: 700; color: var(--accent-color); }
+        .trust-item div:last-child { font-size: 12px; color: var(--text-gray); margin-top: 4px; }
+
+        /* Support Button */
+        .support-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+        .support-link { color: var(--accent-color); text-decoration: none; font-weight: 600; }
+        .support-link:hover { text-decoration: underline; }
+
+        /* Loader Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,255,234,0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s ease-in-out infinite;
+            position: absolute;
+            right: 20px;
+            top: 14px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h2>WhatsPi Business</h2>
-        <p>Decentralized social commerce network and feature activation for digital products and subscriptions on the Pi Network.</p>
+        <h2>WhatsPi Business Premium</h2>
+        <p>The ultimate decentralized social commerce network. Seamlessly activate enterprise features, verified system badges, and specialized subscriptions powered by the Pi Network.</p>
     </div>
 
-    <div class="card">
-        <div class="card-title">🚀 Telegram Verified Badge</div>
-        <div class="card-description">Monetize your feature and request recurring subscription transactions in Pi, granting exclusive access to business feeds, training, or internal alerts.</div>
-        <div class="price-tag">Price: 1.5 Pi / month</div>
-        <button class="btn" onclick="pay('badge_telegram', 1.5, 'Telegram Verified Badge')">Subscribe & Activate Now</button>
+    <input type="text" id="searchBar" class="search-box" placeholder="Search premium features or badges..." onkeyup="filterFeatures()">
+
+    <div id="featuresList">
+        <div class="card">
+            <div class="card-title">🚀 Telegram Verified Badge</div>
+            <div class="card-description">Monetize your platform workflows. Request recurring business subscription transactions in Pi, granting users verified entry to exclusive communication channels, trade feeds, and high-tier community alerts.</div>
+            <div class="price-row">
+                <div class="price-tag">1.5 Pi / month</div>
+            </div>
+            <button class="btn" onclick="pay(this, 'badge_telegram', 1.5, 'Telegram Verified Badge')">
+                <span>Subscribe & Activate Now</span>
+                <div class="spinner"></div>
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="card-title">📸 Instagram Verified Badge</div>
+            <div class="card-description">Establish global trust and profile authority. Elevate social commerce presence, unlocking integrated commercial product showcases, premium story analytics, and flawless direct wallet checkouts.</div>
+            <div class="price-row">
+                <div class="price-tag">3.0 Pi / Lifetime</div>
+            </div>
+            <button class="btn" onclick="pay(this, 'badge_instagram', 3.0, 'Instagram Verified Badge')">
+                <span>Purchase Instant Feature</span>
+                <div class="spinner"></div>
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="card-title">🔮 Discord Verified Badge</div>
+            <div class="card-description">Automate community administration and luxury server infrastructure. Grants specialized roles, encrypted chat channels, and verified administrative rights synced directly with Pi Network validation.</div>
+            <div class="price-row">
+                <div class="price-tag">0.8 Pi / Lifetime</div>
+            </div>
+            <button class="btn" onclick="pay(this, 'badge_discord', 0.8, 'Discord Verified Badge')">
+                <span>Activate Community Rank</span>
+                <div class="spinner"></div>
+            </button>
+        </div>
     </div>
 
-    <div class="card">
-        <div class="card-title">📸 Instagram Verified Badge</div>
-        <div class="card-description">Support and confirmation; users can view exclusive product demos via stories, and seamlessly complete the purchase in Pi without leaving the app.</div>
-        <div class="price-tag">Price: 3.0 Pi / Lifetime</div>
-        <button class="btn" onclick="pay('badge_instagram', 3.0, 'Instagram Verified Badge')">Purchase Instant Feature</button>
+    <div class="trust-badge">
+        <div class="trust-item">
+            <div>+5,400</div>
+            <div>Badges Active</div>
+        </div>
+        <div class="trust-item">
+            <div>100%</div>
+            <div>Secure Escrow</div>
+        </div>
+        <div class="trust-item">
+            <div>&lt; 3s</div>
+            <div>Vercel Sync</div>
+        </div>
     </div>
 
-    <div class="card">
-        <div class="card-title">🔮 Discord Verified Badge</div>
-        <div class="card-description">With premium community access, automatically grants administrative tags, exclusive chat rights, or entry into channels dedicated to Pi Network verification.</div>
-        <div class="price-tag">Price: 0.8 Pi / Lifetime</div>
-        <button class="btn" onclick="pay('badge_discord', 0.8, 'Discord Verified Badge')">Activate Community Rank</button>
+    <div class="support-footer">
+        Need custom infrastructure solutions? <a class="support-link" href="mailto:support@whatspi.com">Contact WhatsPi Enterprise</a>
     </div>
 </div>
 
 <script>
+    // Live Search Logic
+    function filterFeatures() {
+        const input = document.getElementById('searchBar').value.toLowerCase();
+        const cards = document.getElementsByClassName('card');
+        
+        for (let i = 0; i < cards.length; i++) {
+            const title = cards[i].getElementsByClassName('card-title')[0].innerText.toLowerCase();
+            const desc = cards[i].getElementsByClassName('card-description')[0].innerText.toLowerCase();
+            if (title.includes(input) || desc.includes(input)) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+
     // Required scopes for enabling payments
     const scopes = ['payments'];
     
@@ -60,9 +235,18 @@
     // Initialize Pi SDK
     Pi.init({ version: "2.0", sandbox: true });
 
-    async function pay(itemId, amount, itemName) {
+    async function pay(btnElement, itemId, amount, itemName) {
+        // UI Interaction: Trigger Loading state
+        const textSpan = btnElement.querySelector('span');
+        const spinner = btnElement.querySelector('.spinner');
+        const originalText = textSpan.innerText;
+        
+        btnElement.disabled = true;
+        textSpan.innerText = "Processing Transaction...";
+        spinner.style.display = "block";
+
         try {
-            // Authenticate and unlock payment scope capabilities
+            // Authenticate and unlock payment capabilities
             const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
             console.log("Authenticated user:", auth);
 
@@ -90,15 +274,25 @@
                 },
                 onCancel: (paymentId) => {
                     alert("Payment was canceled by the user.");
+                    resetButton();
                 },
                 onError: (error, payment) => {
                     alert("An error occurred during payment processing: " + error.message);
+                    resetButton();
                 }
             });
             
             alert("🎉 Payment confirmed and feature activated successfully!");
+            resetButton();
         } catch (err) {
             alert("Error starting operation: " + err.message);
+            resetButton();
+        }
+
+        function resetButton() {
+            btnElement.disabled = false;
+            textSpan.innerText = originalText;
+            spinner.style.display = "none";
         }
     }
 </script>
