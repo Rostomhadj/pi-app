@@ -50,20 +50,21 @@
 </div>
 
 <script>
-    // تم التحديث هنا لإضافة صلاحيات الدفع والمحفظة رسمياً بالتوافق مع الـ SDK
+    // Required scopes for enabling payments
     const scopes = ['payments'];
     
     function onIncompletePaymentFound(payment) {
         console.log("Incomplete payment found:", payment);
     };
 
+    // Initialize Pi SDK
     Pi.init({ version: "2.0", sandbox: true });
 
     async function pay(itemId, amount, itemName) {
         try {
-            // طلب توثيق المستخدم وتفعيل الصلاحيات قبل إنشاء الدفع
+            // Authenticate and unlock payment scope capabilities
             const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
-            console.log("Authenticated successfully:", auth);
+            console.log("Authenticated user:", auth);
 
             const payment = await Pi.createPayment({
                 amount: amount,
