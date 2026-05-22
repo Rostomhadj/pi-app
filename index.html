@@ -50,19 +50,28 @@
 </div>
 
 <script>
-    // Initialize the official Pi SDK
+    // تم التحديث هنا لإضافة صلاحيات الدفع والمحفظة رسمياً بالتوافق مع الـ SDK
+    const scopes = ['payments'];
+    
+    function onIncompletePaymentFound(payment) {
+        console.log("Incomplete payment found:", payment);
+    };
+
     Pi.init({ version: "2.0", sandbox: true });
 
     async function pay(itemId, amount, itemName) {
         try {
+            // طلب توثيق المستخدم وتفعيل الصلاحيات قبل إنشاء الدفع
+            const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
+            console.log("Authenticated successfully:", auth);
+
             const payment = await Pi.createPayment({
                 amount: amount,
                 memo: `Purchase and activation: ${itemName}`,
                 metadata: { itemId: itemId, itemName: itemName },
-                uid: "user-unique-id"
+                uid: auth.user.uid
             }, {
                 onReadyForServerApproval: async (paymentId) => {
-                    // Connected to your Vercel server successfully
                     const response = await fetch('https://pi-app-eight.vercel.app/approve-payment', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -71,7 +80,6 @@
                     return response.json();
                 },
                 onReadyForServerCompletion: async (paymentId, txid) => {
-                    // Connected to your Vercel server successfully
                     const response = await fetch('https://pi-app-eight.vercel.app/complete-payment', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
