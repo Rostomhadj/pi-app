@@ -3,115 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsPi Business - Decentralized & Simple</title>
+    <title>WhatsPi Business - Decentralized</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --wa-green: #008069; --wa-dark: #111b21; --wa-light: #f0f2f5; --pi-purple: #673ab7; }
-        body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; background-color: white; color: var(--wa-dark); }
+        body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; background-color: white; overflow-x: hidden; }
         
-        /* Header */
-        .header { background-color: var(--wa-green); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; }
-        .header-main { display: flex; align-items: center; justify-content: space-between; }
+        /* Header & Navigation */
+        .header { background-color: var(--wa-green); color: white; padding: 15px 15px 0 15px; position: sticky; top: 0; z-index: 1000; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
         .header h1 { margin: 0; font-size: 20px; font-weight: 500; }
-        .status-bar { font-size: 11px; background: rgba(0,0,0,0.1); padding: 5px 15px; display: flex; justify-content: space-between; }
-
-        /* Decentralized ID Banner */
-        .id-banner { background-color: var(--wa-light); padding: 10px 15px; font-size: 13px; border-bottom: 1px solid #ddd; display: flex; align-items: center; }
-        .id-banner i { color: var(--pi-purple); margin-right: 10px; }
-
-        /* Feature Tabs */
-        .tabs { display: flex; background: var(--wa-green); color: #b3d9d2; text-transform: uppercase; font-size: 13px; font-weight: 600; }
-        .tab-item { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; border-bottom: 3px solid transparent; }
+        
+        .tabs { display: flex; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #b3d9d2; }
+        .tab-item { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; border-bottom: 3px solid transparent; transition: 0.3s; }
         .active-tab { color: white; border-bottom: 3px solid white; }
 
-        /* Chat List */
-        .chat-item { display: flex; align-items: center; padding: 15px; cursor: pointer; border-bottom: 1px solid #f5f6f6; transition: 0.2s; }
-        .chat-item:active { background-color: var(--wa-light); }
-        .avatar { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; flex-shrink: 0; }
-        .chat-info { flex: 1; margin-left: 15px; overflow: hidden; }
-        .chat-header { display: flex; justify-content: space-between; align-items: center; }
-        .chat-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
-        .chat-msg { margin: 5px 0 0 0; font-size: 14px; color: #667781; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        .time { font-size: 12px; color: #667781; }
-        .decentral-tag { font-size: 10px; color: #00a884; border: 1px solid #00a884; padding: 1px 4px; border-radius: 4px; margin-left: 5px; }
+        /* Content Visibility */
+        .page { display: none; padding: 0; animation: fadeIn 0.3s ease-in; }
+        .active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Floating Action Button */
-        .fab { position: fixed; bottom: 25px; right: 25px; background-color: var(--wa-green); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        /* Chat Styles */
+        .chat-item { display: flex; align-items: center; padding: 15px; cursor: pointer; border-bottom: 1px solid #f5f6f6; }
+        .chat-item:active { background-color: #f5f6f6; }
+        .avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; flex-shrink: 0; }
+        .chat-info { flex: 1; margin-left: 15px; }
+        .chat-name { display: flex; justify-content: space-between; font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+        .chat-msg { color: #667781; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+        .time { font-size: 12px; color: #667781; font-weight: 400; }
+
+        /* Order Card Styles */
+        .order-card { background: #fff; margin: 12px; border-radius: 12px; border: 1px solid #e0e0e0; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .product-title { font-size: 16px; font-weight: 700; color: var(--wa-dark); margin: 0 0 8px 0; }
+        .price-tag { color: var(--wa-green); font-weight: bold; font-size: 18px; }
+        .status-badge { background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 6px; font-size: 11px; text-transform: uppercase; font-weight: bold; }
+        .pay-btn { background: var(--pi-purple); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; margin-top: 10px; width: 100%; cursor: pointer; }
+
+        /* Floating Button */
+        .fab { position: fixed; bottom: 25px; right: 25px; background-color: #00a884; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="header-main">
+    <div class="header-top">
         <h1>WhatsPi Business</h1>
         <div>
-            <i class="fas fa-camera" style="margin-right: 20px;"></i>
             <i class="fas fa-search" style="margin-right: 20px;"></i>
             <i class="fas fa-ellipsis-v"></i>
         </div>
     </div>
+    <div class="tabs">
+        <div class="tab-item active-tab" onclick="openPage('chats', this)">Chats</div>
+        <div class="tab-item" onclick="openPage('orders', this)">Orders</div>
+        <div class="tab-item" onclick="openPage('tools', this)">Tools</div>
+    </div>
 </div>
 
-<div class="status-bar">
-    <span><i class="fas fa-link"></i> Peer-to-Peer Encrypted</span>
-    <span>Pi Mainnet Connected</span>
-</div>
-
-<div class="id-banner">
-    <i class="fas fa-user-shield"></i>
-    <span>Logged in via Pi ID: <b>@Rostom_Business</b></span>
-</div>
-
-<div class="tabs">
-    <div class="tab-item"><i class="fas fa-store"></i></div>
-    <div class="tab-item active-tab">Chats</div>
-    <div class="tab-item">Orders</div>
-    <div class="tab-item">Tools</div>
-</div>
-
-<div class="chat-list">
-    <div class="chat-item" onclick="showAction('AI Assistant')">
+<div id="chats" class="page active-page">
+    <div class="chat-item" onclick="alert('Chat encrypted via P2P Tunnel')">
         <div class="avatar" style="background-color: #34b7f1;"><i class="fas fa-robot"></i></div>
         <div class="chat-info">
-            <div class="chat-header">
-                <h3>AI Business Auditor <span class="decentral-tag">SMART</span></h3>
-                <span class="time">12:00</span>
-            </div>
-            <p class="chat-msg">I've analyzed your wood factory production logs.</p>
+            <div class="chat-name">AI Auditor <span class="time">12:00 PM</span></div>
+            <p class="chat-msg">Decentralized auditing report is ready.</p>
         </div>
+    </div>
+    <div class="chat-item" onclick="alert('Secure peer-to-peer connection active')">
+        <div class="avatar" style="background-color: #673ab7;"><i class="fas fa-hammer"></i></div>
+        <div class="chat-info">
+            <div class="chat-name">Wood Factory Lead <span class="time">Yesterday</span></div>
+            <p class="chat-msg">Walnut bases are in production.</p>
+        </div>
+    </div>
+</div>
+
+<div id="orders" class="page">
+    <div class="order-card">
+        <div style="display: flex; justify-content: space-between;">
+            <p class="product-title">Refrigerator Base (Walnut)</p>
+            <span class="status-badge">New Order</span>
+        </div>
+        <p style="font-size: 13px; color: #667781;">Solid wood with premium wheels.</p>
+        <p class="price-tag">45.00 Pi</p>
+        <button class="pay-btn" onclick="alert('Connecting to Pi Wallet...')">Pay Now</button>
     </div>
 
-    <div class="chat-item" onclick="showAction('Direct Order')">
-        <div class="avatar" style="background-color: #673ab7;"><i class="fas fa-box"></i></div>
-        <div class="chat-info">
-            <div class="chat-header">
-                <h3>Wood Table Order #991 <span class="decentral-tag">P2P</span></h3>
-                <span class="time">Yesterday</span>
-            </div>
-            <p class="chat-msg">Customer sent 50 Pi for the fridge base.</p>
+    <div class="order-card">
+        <div style="display: flex; justify-content: space-between;">
+            <p class="product-title">Oven Support Base</p>
+            <span class="status-badge" style="background: #e8f5e9; color: #2e7d32;">Paid</span>
         </div>
+        <p class="price-tag">30.00 Pi</p>
+        <p style="font-size: 12px; color: #667781;">Transaction ID: pi_tx_987...21</p>
     </div>
+</div>
 
-    <div class="chat-item" onclick="showAction('Customer Chat')">
-        <div class="avatar" style="background-color: #00a884;"><i class="fas fa-user"></i></div>
-        <div class="chat-info">
-            <div class="chat-header">
-                <h3>International Buyer</h3>
-                <span class="time">Monday</span>
-            </div>
-            <p class="chat-msg">Can you ship the oven bases to Vietnam?</p>
-        </div>
-    </div>
+<div id="tools" class="page" style="padding: 20px; text-align: center;">
+    <i class="fas fa-tools" style="font-size: 50px; color: #ccc; margin-bottom: 15px;"></i>
+    <h3>Business Inventory</h3>
+    <p style="color: #667781;">Manage your stock and academic research files securely on the blockchain.</p>
 </div>
 
 <div class="fab">
-    <i class="fas fa-plus"></i>
+    <i class="fas fa-comment-medical"></i>
 </div>
 
 <script>
-    function showAction(type) {
-        alert("WhatsPi Protocol:\n\nFeature: " + type + "\nStatus: Secured by Pi Blockchain\nAction: Opening Decentralized Tunnel...");
+    function openPage(pageId, element) {
+        // Hide all pages
+        var i, pages, tabs;
+        pages = document.getElementsByClassName("page");
+        for (i = 0; i < pages.length; i++) {
+            pages[i].classList.remove("active-page");
+        }
+        
+        // Remove active class from tabs
+        tabs = document.getElementsByClassName("tab-item");
+        for (i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove("active-tab");
+        }
+
+        // Show current page and set active tab
+        document.getElementById(pageId).classList.add("active-page");
+        element.classList.add("active-tab");
     }
 </script>
 
