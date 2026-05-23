@@ -9,37 +9,35 @@
         :root { --wa-green: #008069; --wa-dark: #111b21; --wa-light: #f0f2f5; --pi-purple: #673ab7; }
         body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; background-color: white; overflow-x: hidden; }
         
-        /* Header & Navigation */
+        /* Header Section */
         .header { background-color: var(--wa-green); color: white; padding: 15px 15px 0 15px; position: sticky; top: 0; z-index: 1000; }
         .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
         .header h1 { margin: 0; font-size: 20px; font-weight: 500; }
         
+        /* Interactive Tabs */
         .tabs { display: flex; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #b3d9d2; }
         .tab-item { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; border-bottom: 3px solid transparent; transition: 0.3s; }
         .active-tab { color: white; border-bottom: 3px solid white; }
 
-        /* Content Visibility */
+        /* Page Management */
         .page { display: none; padding: 0; animation: fadeIn 0.3s ease-in; }
         .active-page { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Chat Styles */
+        /* Chat UI */
         .chat-item { display: flex; align-items: center; padding: 15px; cursor: pointer; border-bottom: 1px solid #f5f6f6; }
         .chat-item:active { background-color: #f5f6f6; }
         .avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; flex-shrink: 0; }
         .chat-info { flex: 1; margin-left: 15px; }
         .chat-name { display: flex; justify-content: space-between; font-weight: 600; font-size: 16px; margin-bottom: 4px; }
-        .chat-msg { color: #667781; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
-        .time { font-size: 12px; color: #667781; font-weight: 400; }
+        .chat-msg { color: #667781; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
 
-        /* Order Card Styles */
+        /* Order Management UI */
         .order-card { background: #fff; margin: 12px; border-radius: 12px; border: 1px solid #e0e0e0; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .product-title { font-size: 16px; font-weight: 700; color: var(--wa-dark); margin: 0 0 8px 0; }
-        .price-tag { color: var(--wa-green); font-weight: bold; font-size: 18px; }
-        .status-badge { background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 6px; font-size: 11px; text-transform: uppercase; font-weight: bold; }
-        .pay-btn { background: var(--pi-purple); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; margin-top: 10px; width: 100%; cursor: pointer; }
+        .product-title { font-size: 16px; font-weight: 700; color: var(--wa-dark); margin-bottom: 5px; }
+        .price-tag { color: var(--wa-green); font-weight: bold; font-size: 18px; margin-top: 5px; }
+        .pay-btn { background: var(--pi-purple); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; margin-top: 10px; font-weight: 600; cursor: pointer; }
 
-        /* Floating Button */
         .fab { position: fixed; bottom: 25px; right: 25px; background-color: #00a884; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
     </style>
 </head>
@@ -48,82 +46,69 @@
 <div class="header">
     <div class="header-top">
         <h1>WhatsPi Business</h1>
-        <div>
-            <i class="fas fa-search" style="margin-right: 20px;"></i>
-            <i class="fas fa-ellipsis-v"></i>
-        </div>
+        <div><i class="fas fa-search" style="margin-right: 20px;"></i><i class="fas fa-ellipsis-v"></i></div>
     </div>
     <div class="tabs">
-        <div class="tab-item active-tab" onclick="openPage('chats', this)">Chats</div>
-        <div class="tab-item" onclick="openPage('orders', this)">Orders</div>
-        <div class="tab-item" onclick="openPage('tools', this)">Tools</div>
+        <div class="tab-item active-tab" onclick="switchTab('chats', this)">Chats</div>
+        <div class="tab-item" onclick="switchTab('orders', this)">Orders</div>
+        <div class="tab-item" onclick="switchTab('tools', this)">Tools</div>
     </div>
 </div>
 
 <div id="chats" class="page active-page">
-    <div class="chat-item" onclick="alert('Chat encrypted via P2P Tunnel')">
+    <div class="chat-item" onclick="alert('Opening Secure Chat...')">
         <div class="avatar" style="background-color: #34b7f1;"><i class="fas fa-robot"></i></div>
         <div class="chat-info">
-            <div class="chat-name">AI Auditor <span class="time">12:00 PM</span></div>
-            <p class="chat-msg">Decentralized auditing report is ready.</p>
+            <div class="chat-name">AI Auditor <span style="font-size: 12px; color: #667781;">12:00 PM</span></div>
+            <p class="chat-msg">The audit for your wood factory is complete.</p>
         </div>
     </div>
-    <div class="chat-item" onclick="alert('Secure peer-to-peer connection active')">
+    <div class="chat-item" onclick="alert('Connecting to P2P Node...')">
         <div class="avatar" style="background-color: #673ab7;"><i class="fas fa-hammer"></i></div>
         <div class="chat-info">
-            <div class="chat-name">Wood Factory Lead <span class="time">Yesterday</span></div>
-            <p class="chat-msg">Walnut bases are in production.</p>
+            <div class="chat-name">Factory Manager <span style="font-size: 12px; color: #667781;">Yesterday</span></div>
+            <p class="chat-msg">Walnut stocks updated for fridge bases.</p>
         </div>
     </div>
 </div>
 
 <div id="orders" class="page">
     <div class="order-card">
-        <div style="display: flex; justify-content: space-between;">
-            <p class="product-title">Refrigerator Base (Walnut)</p>
-            <span class="status-badge">New Order</span>
-        </div>
-        <p style="font-size: 13px; color: #667781;">Solid wood with premium wheels.</p>
+        <p class="product-title">Walnut Fridge Base (with Wheels)</p>
+        <p style="font-size: 13px; color: #667781;">High-quality specialized furniture base.</p>
         <p class="price-tag">45.00 Pi</p>
-        <button class="pay-btn" onclick="alert('Connecting to Pi Wallet...')">Pay Now</button>
+        <button class="pay-btn" onclick="alert('Processing Pi Wallet Payment...')">Pay with Pi</button>
     </div>
-
     <div class="order-card">
-        <div style="display: flex; justify-content: space-between;">
-            <p class="product-title">Oven Support Base</p>
-            <span class="status-badge" style="background: #e8f5e9; color: #2e7d32;">Paid</span>
-        </div>
+        <p class="product-title">Oven Support Base</p>
         <p class="price-tag">30.00 Pi</p>
-        <p style="font-size: 12px; color: #667781;">Transaction ID: pi_tx_987...21</p>
+        <p style="font-size: 12px; color: #00a884; font-weight: bold;">Status: Shipped</p>
     </div>
 </div>
 
-<div id="tools" class="page" style="padding: 20px; text-align: center;">
-    <i class="fas fa-tools" style="font-size: 50px; color: #ccc; margin-bottom: 15px;"></i>
-    <h3>Business Inventory</h3>
-    <p style="color: #667781;">Manage your stock and academic research files securely on the blockchain.</p>
+<div id="tools" class="page" style="padding: 30px; text-align: center;">
+    <i class="fas fa-shield-alt" style="font-size: 50px; color: #ccc; margin-bottom: 15px;"></i>
+    <h3>Business Security</h3>
+    <p style="color: #667781;">Manage your decentralized business certificates and academic research logs.</p>
 </div>
 
-<div class="fab">
-    <i class="fas fa-comment-medical"></i>
-</div>
+<div class="fab"><i class="fas fa-plus"></i></div>
 
 <script>
-    function openPage(pageId, element) {
+    function switchTab(pageId, element) {
         // Hide all pages
-        var i, pages, tabs;
-        pages = document.getElementsByClassName("page");
-        for (i = 0; i < pages.length; i++) {
+        var pages = document.getElementsByClassName("page");
+        for (var i = 0; i < pages.length; i++) {
             pages[i].classList.remove("active-page");
         }
         
-        // Remove active class from tabs
-        tabs = document.getElementsByClassName("tab-item");
-        for (i = 0; i < tabs.length; i++) {
+        // Deactivate all tabs
+        var tabs = document.getElementsByClassName("tab-item");
+        for (var i = 0; i < tabs.length; i++) {
             tabs[i].classList.remove("active-tab");
         }
-
-        // Show current page and set active tab
+        
+        // Show selected page and activate tab
         document.getElementById(pageId).classList.add("active-page");
         element.classList.add("active-tab");
     }
