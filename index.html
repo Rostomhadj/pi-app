@@ -3,114 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsPi Business - Decentralized</title>
+    <title>WhatsPi Business</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --wa-green: #008069; --wa-dark: #111b21; --wa-light: #f0f2f5; --pi-purple: #673ab7; }
-        body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; background-color: white; overflow-x: hidden; }
+        body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; background-color: white; overflow: hidden; }
         
-        /* Header Section */
-        .header { background-color: var(--wa-green); color: white; padding: 15px 15px 0 15px; position: sticky; top: 0; z-index: 1000; }
-        .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+        /* Main Header */
+        .header { background-color: var(--wa-green); color: white; padding: 15px 15px 5px 15px; position: sticky; top: 0; z-index: 1000; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
         .header h1 { margin: 0; font-size: 20px; font-weight: 500; }
         
-        /* Interactive Tabs */
         .tabs { display: flex; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #b3d9d2; }
-        .tab-item { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; border-bottom: 3px solid transparent; transition: 0.3s; }
+        .tab-item { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; border-bottom: 3px solid transparent; }
         .active-tab { color: white; border-bottom: 3px solid white; }
 
-        /* Page Management */
-        .page { display: none; padding: 0; animation: fadeIn 0.3s ease-in; }
+        /* Pages */
+        .page { display: none; height: calc(100vh - 100px); overflow-y: auto; }
         .active-page { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Chat UI */
+        /* Chat List */
         .chat-item { display: flex; align-items: center; padding: 15px; cursor: pointer; border-bottom: 1px solid #f5f6f6; }
-        .chat-item:active { background-color: #f5f6f6; }
-        .avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; flex-shrink: 0; }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; flex-shrink: 0; }
         .chat-info { flex: 1; margin-left: 15px; }
-        .chat-name { display: flex; justify-content: space-between; font-weight: 600; font-size: 16px; margin-bottom: 4px; }
-        .chat-msg { color: #667781; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+        .chat-name { font-weight: 600; font-size: 16px; }
+        .chat-msg { color: #667781; font-size: 14px; margin-top: 3px; }
 
-        /* Order Management UI */
-        .order-card { background: #fff; margin: 12px; border-radius: 12px; border: 1px solid #e0e0e0; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .product-title { font-size: 16px; font-weight: 700; color: var(--wa-dark); margin-bottom: 5px; }
-        .price-tag { color: var(--wa-green); font-weight: bold; font-size: 18px; margin-top: 5px; }
-        .pay-btn { background: var(--pi-purple); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; margin-top: 10px; font-weight: 600; cursor: pointer; }
+        /* Real Chat Window (Hidden by default) */
+        #chat-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e5ddd5; z-index: 2000; display: none; flex-direction: column; }
+        .chat-header { background: var(--wa-green); color: white; padding: 15px; display: flex; align-items: center; }
+        .chat-body { flex: 1; padding: 20px; display: flex; flex-direction: column; }
+        .msg { background: white; padding: 10px; border-radius: 8px; margin-bottom: 10px; max-width: 80%; align-self: flex-start; box-shadow: 0 1px 1px rgba(0,0,0,0.1); }
+        .input-area { background: #f0f2f5; padding: 10px; display: flex; align-items: center; }
+        .input-area input { flex: 1; border: none; padding: 10px; border-radius: 20px; outline: none; margin: 0 10px; }
 
-        .fab { position: fixed; bottom: 25px; right: 25px; background-color: #00a884; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        /* Order Cards */
+        .order-card { background: white; margin: 15px; border-radius: 12px; border: 1px solid #ddd; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .price { color: var(--wa-green); font-weight: bold; font-size: 18px; }
+        .btn { background: var(--pi-purple); color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="header-top">
-        <h1>WhatsPi Business</h1>
-        <div><i class="fas fa-search" style="margin-right: 20px;"></i><i class="fas fa-ellipsis-v"></i></div>
-    </div>
-    <div class="tabs">
-        <div class="tab-item active-tab" onclick="switchTab('chats', this)">Chats</div>
-        <div class="tab-item" onclick="switchTab('orders', this)">Orders</div>
-        <div class="tab-item" onclick="switchTab('tools', this)">Tools</div>
-    </div>
-</div>
-
-<div id="chats" class="page active-page">
-    <div class="chat-item" onclick="alert('Opening Secure Chat...')">
-        <div class="avatar" style="background-color: #34b7f1;"><i class="fas fa-robot"></i></div>
-        <div class="chat-info">
-            <div class="chat-name">AI Auditor <span style="font-size: 12px; color: #667781;">12:00 PM</span></div>
-            <p class="chat-msg">The audit for your wood factory is complete.</p>
+<div id="main-app">
+    <div class="header">
+        <div class="header-top">
+            <h1>WhatsPi Business</h1>
+            <div><i class="fas fa-search" style="margin-right: 20px;"></i><i class="fas fa-ellipsis-v"></i></div>
+        </div>
+        <div class="tabs">
+            <div class="tab-item active-tab" onclick="switchPage('chats', this)">Chats</div>
+            <div class="tab-item" onclick="switchPage('orders', this)">Orders</div>
+            <div class="tab-item" onclick="switchPage('tools', this)">Tools</div>
         </div>
     </div>
-    <div class="chat-item" onclick="alert('Connecting to P2P Node...')">
-        <div class="avatar" style="background-color: #673ab7;"><i class="fas fa-hammer"></i></div>
-        <div class="chat-info">
-            <div class="chat-name">Factory Manager <span style="font-size: 12px; color: #667781;">Yesterday</span></div>
-            <p class="chat-msg">Walnut stocks updated for fridge bases.</p>
+
+    <div id="chats" class="page active-page">
+        <div class="chat-item" onclick="openFullChat('AI Business Auditor')">
+            <div class="avatar" style="background-color: #34b7f1;"><i class="fas fa-robot"></i></div>
+            <div class="chat-info">
+                <div class="chat-name">AI Business Auditor</div>
+                <div class="chat-msg">Decentralized logs are ready for review.</div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="orders" class="page">
-    <div class="order-card">
-        <p class="product-title">Walnut Fridge Base (with Wheels)</p>
-        <p style="font-size: 13px; color: #667781;">High-quality specialized furniture base.</p>
-        <p class="price-tag">45.00 Pi</p>
-        <button class="pay-btn" onclick="alert('Processing Pi Wallet Payment...')">Pay with Pi</button>
+    <div id="orders" class="page">
+        <div class="order-card">
+            <h3>Walnut Fridge Base</h3>
+            <p style="color: #667781;">Specialized wood with reinforced wheels.</p>
+            <p class="price">45.00 Pi</p>
+            <button class="btn" onclick="alert('Connecting to Pi Wallet...')">Order & Pay</button>
+        </div>
     </div>
-    <div class="order-card">
-        <p class="product-title">Oven Support Base</p>
-        <p class="price-tag">30.00 Pi</p>
-        <p style="font-size: 12px; color: #00a884; font-weight: bold;">Status: Shipped</p>
+
+    <div id="tools" class="page" style="padding: 30px; text-align: center;">
+        <i class="fas fa-microchip" style="font-size: 50px; color: #ccc;"></i>
+        <h3>Deep Learning Research</h3>
+        <p style="color: #667781;">Sync your academic logs with the blockchain.</p>
     </div>
 </div>
 
-<div id="tools" class="page" style="padding: 30px; text-align: center;">
-    <i class="fas fa-shield-alt" style="font-size: 50px; color: #ccc; margin-bottom: 15px;"></i>
-    <h3>Business Security</h3>
-    <p style="color: #667781;">Manage your decentralized business certificates and academic research logs.</p>
+<div id="chat-window">
+    <div class="chat-header">
+        <i class="fas fa-arrow-left" onclick="closeFullChat()" style="margin-right: 15px; cursor: pointer;"></i>
+        <span id="chat-title" style="font-weight: 600;">Chat</span>
+    </div>
+    <div class="chat-body">
+        <div class="msg">Hello Rostom! This is your decentralized AI assistant. How can I help with your wood factory today?</div>
+    </div>
+    <div class="input-area">
+        <i class="far fa-smile"></i>
+        <input type="text" placeholder="Type a message...">
+        <i class="fas fa-microphone"></i>
+    </div>
 </div>
-
-<div class="fab"><i class="fas fa-plus"></i></div>
 
 <script>
-    function switchTab(pageId, element) {
-        // Hide all pages
-        var pages = document.getElementsByClassName("page");
-        for (var i = 0; i < pages.length; i++) {
-            pages[i].classList.remove("active-page");
-        }
-        
-        // Deactivate all tabs
-        var tabs = document.getElementsByClassName("tab-item");
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove("active-tab");
-        }
-        
-        // Show selected page and activate tab
-        document.getElementById(pageId).classList.add("active-page");
-        element.classList.add("active-tab");
+    function switchPage(pageId, element) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active-tab'));
+        document.getElementById(pageId).classList.add('active-page');
+        element.classList.add('active-tab');
+    }
+
+    function openFullChat(name) {
+        document.getElementById('chat-title').innerText = name;
+        document.getElementById('chat-window').style.display = 'flex';
+    }
+
+    function closeFullChat() {
+        document.getElementById('chat-window').style.display = 'none';
     }
 </script>
 
