@@ -3,72 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsPi Business Premium</title>
+    <title>WhatsPi Business - Decentralized & Simple</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; background-color: #f0f2f5; color: #111b21; }
+        :root { --wa-green: #008069; --wa-dark: #111b21; --wa-light: #f0f2f5; --pi-purple: #673ab7; }
+        body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; background-color: white; color: var(--wa-dark); }
         
-        /* WhatsApp Style Header */
-        .header { background-color: #008069; color: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        /* Header */
+        .header { background-color: var(--wa-green); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; }
+        .header-main { display: flex; align-items: center; justify-content: space-between; }
         .header h1 { margin: 0; font-size: 20px; font-weight: 500; }
-        
-        /* Search Bar */
-        .search-container { background-color: white; padding: 10px; margin: 10px; border-radius: 20px; display: flex; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .search-container input { border: none; outline: none; width: 100%; margin-left: 10px; font-size: 15px; color: #667781; }
-        
-        /* Promotion Banner */
-        .banner { background-color: #fff3cd; color: #856404; padding: 12px; margin: 10px; border-radius: 10px; font-size: 13px; display: flex; align-items: center; border: 1px solid #ffeeba; }
-        .banner i { margin-right: 10px; font-size: 16px; }
+        .status-bar { font-size: 11px; background: rgba(0,0,0,0.1); padding: 5px 15px; display: flex; justify-content: space-between; }
 
-        /* Services List */
-        .list-container { padding: 5px 10px; }
-        .list-item { background-color: white; margin-bottom: 8px; padding: 14px; border-radius: 12px; display: flex; align-items: center; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #f0f2f5; }
-        .list-item:active { background-color: #f5f6f6; transform: scale(0.98); }
+        /* Decentralized ID Banner */
+        .id-banner { background-color: var(--wa-light); padding: 10px 15px; font-size: 13px; border-bottom: 1px solid #ddd; display: flex; align-items: center; }
+        .id-banner i { color: var(--pi-purple); margin-right: 10px; }
+
+        /* Feature Tabs */
+        .tabs { display: flex; background: var(--wa-green); color: #b3d9d2; text-transform: uppercase; font-size: 13px; font-weight: 600; }
+        .tab-item { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; border-bottom: 3px solid transparent; }
+        .active-tab { color: white; border-bottom: 3px solid white; }
+
+        /* Chat List */
+        .chat-item { display: flex; align-items: center; padding: 15px; cursor: pointer; border-bottom: 1px solid #f5f6f6; transition: 0.2s; }
+        .chat-item:active { background-color: var(--wa-light); }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; flex-shrink: 0; }
+        .chat-info { flex: 1; margin-left: 15px; overflow: hidden; }
+        .chat-header { display: flex; justify-content: space-between; align-items: center; }
+        .chat-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
+        .chat-msg { margin: 5px 0 0 0; font-size: 14px; color: #667781; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .icon-circle { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; flex-shrink: 0; }
-        
-        .content { flex: 1; margin-left: 15px; }
-        .content h3 { margin: 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; }
-        .content p { margin: 4px 0 0 0; font-size: 13px; color: #667781; line-height: 1.3; }
-        
-        .status-badge { background-color: #a063cf; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; margin-left: 8px; text-transform: uppercase; }
-        .offer-tag { font-size: 11px; color: #00a884; font-weight: 600; margin-top: 5px; }
+        .time { font-size: 12px; color: #667781; }
+        .decentral-tag { font-size: 10px; color: #00a884; border: 1px solid #00a884; padding: 1px 4px; border-radius: 4px; margin-left: 5px; }
+
+        /* Floating Action Button */
+        .fab { position: fixed; bottom: 25px; right: 25px; background-color: var(--wa-green); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div style="display: flex; align-items: center;">
-        <i class="fas fa-bars" style="margin-right: 20px; cursor: pointer;"></i>
+    <div class="header-main">
         <h1>WhatsPi Business</h1>
-    </div>
-    <div>
-        <i class="fas fa-camera" style="margin-right: 20px; cursor: pointer;"></i>
-        <i class="fas fa-ellipsis-v" style="cursor: pointer;"></i>
-    </div>
-</div>
-
-<div class="search-container">
-    <i class="fas fa-search" style="color: #667781;"></i>
-    <input type="text" placeholder="Ask Meta AI or Search...">
-</div>
-
-<div class="banner">
-    <i class="fas fa-bullhorn"></i>
-    <span><b>Special Launch Offer:</b> All premium features are 100% FREE for 6 Months!</span>
-</div>
-
-<div class="list-container">
-    <div class="list-item" onclick="activateService('AI Business Consultant')">
-        <div class="icon-circle" style="background-color: #34b7f1;">
-            <i class="fas fa-robot"></i>
-        </div>
-        <div class="content">
-            <h3>AI Accounting & Consultant <span class="status-badge">Online</span></h3>
-            <p>Solve auditing, accounting, and production issues instantly with AI.</p>
-            <div class="offer-tag">2 Months Free Trial Included</div>
+        <div>
+            <i class="fas fa-camera" style="margin-right: 20px;"></i>
+            <i class="fas fa-search" style="margin-right: 20px;"></i>
+            <i class="fas fa-ellipsis-v"></i>
         </div>
     </div>
+</div>
 
-    <div
-        
+<div class="status-bar">
+    <span><i class="fas fa-link"></i> Peer-to-Peer Encrypted</span>
+    <span>Pi Mainnet Connected</span>
+</div>
+
+<div class="id-banner">
+    <i class="fas fa-user-shield"></i>
+    <span>Logged in via Pi ID: <b>@Rostom_Business</b></span>
+</div>
+
+<div class="tabs">
+    <div class="tab-item"><i class="fas fa-store"></i></div>
+    <div class="tab-item active-tab">Chats</div>
+    <div class="tab-item">Orders</div>
+    <div class="tab-item">Tools</div>
+</div>
+
+<div class="chat-list">
+    <div class="chat-item" onclick="showAction('AI Assistant')">
+        <div class="avatar" style="background-color: #34b7f1;"><i class="fas fa-robot"></i></div>
+        <div class="chat-info">
+            <div class="chat-header">
+                <h3>AI Business Auditor <span class="decentral-tag">SMART</span></h3>
+                <span class="time">12:00</span>
+            </div>
+            <p class="chat-msg">I've analyzed your wood factory production logs.</p>
+        </div>
+    </div>
+
+    <div class="chat-item" onclick="showAction('Direct Order')">
+        <div class="avatar" style="background-color: #673ab7;"><i class="fas fa-box"></i></div>
+        <div class="chat-info">
+            <div class="chat-header">
+                <h3>Wood Table Order #991 <span class="decentral-tag">P2P</span></h3>
+                <span class="time">Yesterday</span>
+            </div>
+            <p class="chat-msg">Customer sent 50 Pi for the fridge base.</p>
+        </div>
+    </div>
+
+    <div class="chat-item" onclick="showAction('Customer Chat')">
+        <div class="avatar" style="background-color: #00a884;"><i class="fas fa-user"></i></div>
+        <div class="chat-info">
+            <div class="chat-header">
+                <h3>International Buyer</h3>
+                <span class="time">Monday</span>
+            </div>
+            <p class="chat-msg">Can you ship the oven bases to Vietnam?</p>
+        </div>
+    </div>
+</div>
+
+<div class="fab">
+    <i class="fas fa-plus"></i>
+</div>
+
+<script>
+    function showAction(type) {
+        alert("WhatsPi Protocol:\n\nFeature: " + type + "\nStatus: Secured by Pi Blockchain\nAction: Opening Decentralized Tunnel...");
+    }
+</script>
+
+</body>
+</html>
