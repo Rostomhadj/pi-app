@@ -1,12 +1,10 @@
 {
-  "version": 2,
-  "routes": [
+  "cleanUrls": true,
+  "framework": null,
+  "builds": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "src": "index.html",
+      "use": "@vercel/static"
     }
   ]
 }
