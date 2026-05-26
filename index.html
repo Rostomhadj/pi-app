@@ -6,117 +6,133 @@
     <title>WhatsPi Business Premium</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --wa-green: #008069; --wa-teal: #00a884; --pi-gold: #ffa000; --pi-purple: #673ab7; --bg-gray: #f0f2f5; }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background: white; overflow: hidden; }
+        :root { --wa-green: #008069; --wa-teal: #00a884; --pi-purple: #673ab7; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; background-color: white; overflow: hidden; }
         
-        /* Header & Navigation */
-        .header { background: var(--wa-green); color: white; padding: 15px 15px 5px 15px; position: sticky; top: 0; z-index: 1000; }
+        /* App Header */
+        .header { background-color: var(--wa-green); color: white; padding: 15px 15px 0 15px; position: sticky; top: 0; z-index: 1000; }
         .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
         .tabs { display: flex; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #b3d9d2; }
         .tab-item { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; border-bottom: 3px solid transparent; }
         .active-tab { color: white; border-bottom: 3px solid white; }
 
-        /* Pages */
+        /* Sections */
         .page { display: none; height: calc(100vh - 105px); overflow-y: auto; background: white; }
         .active-page { display: block; }
 
         /* Chat List */
         .chat-item { display: flex; align-items: center; padding: 15px; cursor: pointer; border-bottom: 1px solid #f2f2f2; }
-        .avatar { width: 55px; height: 55px; border-radius: 50%; background: #ccc; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; flex-shrink: 0; }
+        .avatar { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
         .chat-info { flex: 1; margin-left: 15px; }
-        .chat-header { display: flex; justify-content: space-between; font-weight: 600; }
-        .chat-preview { color: #667781; font-size: 14px; margin-top: 4px; display: flex; align-items: center; }
-        .pi-badge { background: #fff3e0; color: #e65100; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 5px; border: 1px solid #ffe0b2; }
+        .chat-name { font-weight: 600; font-size: 16px; display: flex; justify-content: space-between; }
+        .chat-msg { color: #667781; font-size: 14px; margin-top: 4px; }
 
-        /* Business Dashboard & CRM */
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
-        .stat-card { background: var(--bg-gray); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #e0e0e0; }
-        .stat-val { font-size: 20px; font-weight: bold; color: var(--pi-purple); display: block; }
-        .stat-label { font-size: 12px; color: #667781; }
+        /* Business Dashboard */
+        .card { background: var(--bg); margin: 15px; padding: 20px; border-radius: 15px; border: 1px solid #e0e0e0; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stat-box { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .val { display: block; font-size: 20px; font-weight: bold; color: var(--pi-purple); }
 
-        /* Catalog & Payments */
-        .catalog-item { margin: 15px; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; }
-        .item-details { padding: 12px; }
-        .pay-btn { background: var(--pi-purple); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        /* Catalog & Pi Payment */
+        .product-card { margin: 15px; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; }
+        .product-img { height: 180px; background: #eee; display: flex; align-items: center; justify-content: center; color: #aaa; }
+        .product-body { padding: 15px; }
+        .pay-btn { background: var(--pi-purple); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-        /* Floating AI Bot */
-        .ai-fab { position: fixed; bottom: 20px; right: 20px; background: var(--wa-teal); width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        /* Real Chat Overlay */
+        #chat-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e5ddd5; z-index: 2000; display: none; flex-direction: column; }
+        .chat-header { background: var(--wa-green); color: white; padding: 15px; display: flex; align-items: center; }
+        .chat-footer { background: #f0f2f5; padding: 10px; display: flex; align-items: center; }
+        .chat-footer input { flex: 1; border: none; padding: 10px; border-radius: 20px; margin: 0 10px; outline: none; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="header-top">
-        <h1 style="margin:0; font-size:22px;">WhatsPi Business</h1>
-        <div><i class="fas fa-camera" style="margin-right:15px;"></i><i class="fas fa-search" style="margin-right:15px;"></i><i class="fas fa-ellipsis-v"></i></div>
-    </div>
-    <div class="tabs">
-        <div class="tab-item active-tab" onclick="tab('chats', this)">Chats</div>
-        <div class="tab-item" onclick="tab('dashboard', this)">Dashboard</div>
-        <div class="tab-item" onclick="tab('catalog', this)">Catalog</div>
-    </div>
-</div>
-
-<div id="chats" class="page active-page">
-    <div class="chat-item">
-        <div class="avatar" style="background: var(--pi-purple);"><i class="fas fa-robot"></i></div>
-        <div class="chat-info">
-            <div class="chat-header">AI Smart Assistant <span style="font-weight:400; font-size:12px; color:#667781">Online</span></div>
-            <div class="chat-preview"><i class="fas fa-check-double" style="color:#53bdeb; margin-right:5px;"></i> Automatic reply sent to 5 customers.</div>
+<div id="main-ui">
+    <div class="header">
+        <div class="header-top">
+            <h1>WhatsPi Business</h1>
+            <div><i class="fas fa-search" style="margin-right:20px;"></i><i class="fas fa-ellipsis-v"></i></div>
+        </div>
+        <div class="tabs">
+            <div class="tab-item active-tab" onclick="nav('chats', this)">Chats</div>
+            <div class="tab-item" onclick="nav('dashboard', this)">Dashboard</div>
+            <div class="tab-item" onclick="nav('catalog', this)">Catalog</div>
         </div>
     </div>
-    <div class="chat-item">
-        <div class="avatar" style="background: #008069;"><i class="fas fa-user-tie"></i></div>
-        <div class="chat-info">
-            <div class="chat-header">Premium Client #782 <span style="font-weight:400; font-size:12px; color:#667781">10:45 AM</span></div>
-            <div class="chat-preview">Invoice generated. <span class="pi-badge">Pi Payment Pending</span></div>
+
+    <div id="chats" class="page active-page">
+        <div class="chat-item" onclick="openChat('AI Smart Assistant')">
+            <div class="avatar" style="background: var(--pi-purple);"><i class="fas fa-robot"></i></div>
+            <div class="chat-info">
+                <div class="chat-name">AI Smart Assistant <span>12:00 PM</span></div>
+                <div class="chat-msg">Encryption End-to-End active. Ready for P2P.</div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="dashboard" class="page">
-    <div style="padding: 15px;"><h3 style="margin:0;">Business Insights</h3></div>
-    <div class="dashboard-grid">
-        <div class="stat-card"><span class="stat-val">1,240 Pi</span><span class="stat-label">Total Revenue</span></div>
-        <div class="stat-card"><span class="stat-val">48</span><span class="stat-label">New Orders</span></div>
-        <div class="stat-card"><span class="stat-val">98%</span><span class="stat-label">AI Accuracy</span></div>
-        <div class="stat-card"><span class="stat-val">4.9/5</span><span class="stat-label">Client Rating</span></div>
+    <div id="dashboard" class="page">
+        <div class="card">
+            <h3>Sales Analytics</h3>
+            <div class="stat-grid">
+                <div class="stat-box"><span class="val">3,450 Pi</span><span>Revenue</span></div>
+                <div class="stat-box"><span class="val">128</span><span>Clients</span></div>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Loyalty Program</h3>
+            <p>560 Points Distributed to customers.</p>
+        </div>
     </div>
-    <div style="padding: 15px; border-top: 10px solid #f0f2f5;">
-        <h4>CRM Tools</h4>
-        <p style="color:#667781; font-size:14px;"><i class="fas fa-bullhorn"></i> Broadcast Campaign to 500 users</p>
-        <p style="color:#667781; font-size:14px;"><i class="fas fa-id-badge"></i> Loyalty Points: 15,200 Distributed</p>
-    </div>
-</div>
 
-<div id="catalog" class="page">
-    <div class="catalog-item">
-        <div style="height:150px; background:#ddd; display:flex; align-items:center; justify-content:center; color:#888;">Product Video/Image</div>
-        <div class="item-details">
-            <h3 style="margin:0;">Premium Business Service</h3>
-            <p style="color:#667781; font-size:13px;">Full encrypted end-to-end consulting via blockchain.</p>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                <span style="font-size:18px; font-weight:bold; color:var(--wa-green);">50 Pi</span>
-                <button class="pay-btn" onclick="pay()"><i class="fab fa-ethereum"></i> Pay with Pi</button>
+    <div id="catalog" class="page">
+        <div class="product-card">
+            <div class="product-img"><i class="fas fa-box-open" style="font-size:40px;"></i></div>
+            <div class="product-body">
+                <h3>Premium Business License</h3>
+                <p style="color:#666;">Full CRM & AI Automation tools.</p>
+                <p style="font-weight:bold; color:var(--wa-green); font-size:18px;">100 Pi</p>
+                <button class="pay-btn" onclick="alert('Connecting to Pi Wallet Securely...')">
+                    <i class="fab fa-ethereum"></i> Pay with Pi
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="ai-fab"><i class="fas fa-brain"></i></div>
+<div id="chat-window">
+    <div class="chat-header">
+        <i class="fas fa-arrow-left" onclick="closeChat()" style="margin-right:15px; cursor: pointer;"></i>
+        <span id="chat-title" style="font-weight:600;">Chat</span>
+    </div>
+    <div style="flex:1; padding:20px; overflow-y:auto;">
+        <div style="background:white; padding:10px; border-radius:10px; max-width:80%; box-shadow:0 1px 2px rgba(0,0,0,0.1);">
+            Welcome Rostom. All communications are secure and peer-to-peer.
+        </div>
+    </div>
+    <div class="chat-footer">
+        <i class="far fa-smile"></i>
+        <input type="text" placeholder="Type a message...">
+        <i class="fas fa-microphone"></i>
+    </div>
+</div>
 
 <script>
-    function tab(id, el) {
+    function nav(id, el) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
         document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active-tab'));
         document.getElementById(id).classList.add('active-page');
         el.classList.add('active-tab');
     }
-
-    function pay() {
-        alert("Initializing Pi SDK...\nConnecting to Wallet: @Rostom_Business\nEncrypted P2P Payment Ready.");
+    function openChat(name) {
+        document.getElementById('chat-title').innerText = name;
+        document.getElementById('chat-window').style.display = 'flex';
+    }
+    function closeChat() {
+        document.getElementById('chat-window').style.display = 'none';
     }
 </script>
 
 </body>
-</html>
+            </html>
+            
