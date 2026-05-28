@@ -3,135 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsPi Business Premium</title>
+    <title>WhatsPi Business Premium - Academic Research</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --wa-green: #008069; --wa-teal: #00a884; --pi-purple: #673ab7; --bg: #f0f2f5; }
-        body { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; background-color: white; overflow: hidden; }
+        :root { --wa-green: #008069; --wa-teal: #00a884; --pi-purple: #673ab7; --bg: #f0f2f5; --text: #111b21; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #fff; color: var(--text); overflow: hidden; }
         
-        /* App Header */
-        .header { background-color: var(--wa-green); color: white; padding: 15px 15px 0 15px; position: sticky; top: 0; z-index: 1000; }
-        .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .tabs { display: flex; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #b3d9d2; }
-        .tab-item { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; border-bottom: 3px solid transparent; }
-        .active-tab { color: white; border-bottom: 3px solid white; }
+        /* Main Header */
+        .header { background: var(--wa-green); color: white; padding: 10px 15px 0 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .header-top { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; }
+        .header-top h2 { margin: 0; font-size: 22px; }
+        .header-icons i { margin-left: 20px; cursor: pointer; font-size: 18px; }
 
-        /* Sections */
-        .page { display: none; height: calc(100vh - 105px); overflow-y: auto; background: white; }
-        .active-page { display: block; }
+        /* Tabs Navigation */
+        .tabs { display: flex; text-align: center; }
+        .tab { flex: 1; padding: 15px 0; cursor: pointer; color: #b3d9d2; font-weight: 600; font-size: 14px; border-bottom: 3px solid transparent; transition: 0.3s; }
+        .active-tab { color: white; border-bottom-color: white; }
 
-        /* Chat List */
-        .chat-item { display: flex; align-items: center; padding: 15px; cursor: pointer; border-bottom: 1px solid #f2f2f2; }
-        .avatar { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
-        .chat-info { flex: 1; margin-left: 15px; }
-        .chat-name { font-weight: 600; font-size: 16px; display: flex; justify-content: space-between; }
-        .chat-msg { color: #667781; font-size: 14px; margin-top: 4px; }
+        /* Search Overlay */
+        #search-bar { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 60px; background: white; z-index: 2000; align-items: center; padding: 0 15px; box-sizing: border-box; }
+        #search-bar input { flex: 1; border: none; outline: none; font-size: 16px; margin-left: 15px; }
 
-        /* Business Dashboard */
-        .card { background: var(--bg); margin: 15px; padding: 20px; border-radius: 15px; border: 1px solid #e0e0e0; }
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .stat-box { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .val { display: block; font-size: 20px; font-weight: bold; color: var(--pi-purple); }
+        /* Dropdown Menu */
+        #main-menu { display: none; position: absolute; top: 50px; right: 10px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; width: 180px; z-index: 3000; overflow: hidden; }
+        .menu-item { padding: 12px 15px; cursor: pointer; font-size: 15px; color: #3b4a54; border-bottom: 1px solid #f0f0f0; }
+        .menu-item:hover { background: #f5f5f5; }
 
-        /* Catalog & Pi Payment */
-        .product-card { margin: 15px; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; }
-        .product-img { height: 180px; background: #eee; display: flex; align-items: center; justify-content: center; color: #aaa; }
-        .product-body { padding: 15px; }
-        .pay-btn { background: var(--pi-purple); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        /* Content Pages */
+        .page { display: none; height: calc(100vh - 110px); overflow-y: auto; padding: 10px; box-sizing: border-box; background: white; }
+        .active-page { display: block; animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Real Chat Overlay */
-        #chat-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e5ddd5; z-index: 2000; display: none; flex-direction: column; }
-        .chat-header { background: var(--wa-green); color: white; padding: 15px; display: flex; align-items: center; }
-        .chat-footer { background: #f0f2f5; padding: 10px; display: flex; align-items: center; }
-        .chat-footer input { flex: 1; border: none; padding: 10px; border-radius: 20px; margin: 0 10px; outline: none; }
+        /* Chat UI Components */
+        .chat-card { display: flex; align-items: center; padding: 12px; border-bottom: 1px solid #f2f2f2; cursor: pointer; }
+        .chat-card:active { background: #f0f2f5; }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; background: #dfe5e7; display: flex; align-items: center; justify-content: center; font-size: 20px; color: white; }
+        .chat-details { flex: 1; margin-left: 15px; }
+        .chat-details h4 { margin: 0; font-size: 16px; display: flex; justify-content: space-between; }
+        .chat-details p { margin: 4px 0 0; font-size: 13px; color: #667781; }
+
+        /* Dashboard & Pi Pay Components */
+        .stat-card { background: var(--bg); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #e9edef; }
+        .pi-btn { background: var(--pi-purple); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; }
     </style>
 </head>
 <body>
 
-<div id="main-ui">
+    <div id="search-bar">
+        <i class="fas fa-arrow-left" onclick="toggleSearch()" style="color: var(--wa-green); cursor: pointer;"></i>
+        <input type="text" id="search-input" placeholder="Search for clients or orders..." onkeyup="doSearch()">
+    </div>
+
     <div class="header">
         <div class="header-top">
-            <h1>WhatsPi Business</h1>
-            <div><i class="fas fa-search" style="margin-right:20px;"></i><i class="fas fa-ellipsis-v"></i></div>
+            <h2>WhatsPi</h2>
+            <div class="header-icons">
+                <i class="fas fa-search" onclick="toggleSearch()"></i>
+                <i class="fas fa-ellipsis-v" onclick="toggleMenu(event)"></i>
+            </div>
         </div>
+        
+        <div id="main-menu">
+            <div class="menu-item" onclick="alert('Opening Business Settings...')">Business Settings</div>
+            <div class="menu-item" onclick="alert('GripDL Research Tools')">Research Tools</div>
+            <div class="menu-item" onclick="location.reload()">Restart App</div>
+        </div>
+
         <div class="tabs">
-            <div class="tab-item active-tab" onclick="nav('chats', this)">Chats</div>
-            <div class="tab-item" onclick="nav('dashboard', this)">Dashboard</div>
-            <div class="tab-item" onclick="nav('catalog', this)">Catalog</div>
+            <div class="tab active-tab" onclick="switchPage('chats', this)">CHATS</div>
+            <div class="tab" onclick="switchPage('status', this)">DASHBOARD</div>
+            <div class="tab" onclick="switchPage('calls', this)">PI PAY</div>
         </div>
     </div>
 
     <div id="chats" class="page active-page">
-        <div class="chat-item" onclick="openChat('AI Smart Assistant')">
+        <div class="chat-card" onclick="alert('Opening AI Consultant...')">
             <div class="avatar" style="background: var(--pi-purple);"><i class="fas fa-robot"></i></div>
-            <div class="chat-info">
-                <div class="chat-name">AI Smart Assistant <span>12:00 PM</span></div>
-                <div class="chat-msg">Encryption End-to-End active. Ready for P2P.</div>
+            <div class="chat-details">
+                <h4>AI Smart Assistant <span>12:45</span></h4>
+                <p>Hello Rostomhadj, all systems are active.</p>
+            </div>
+        </div>
+        <div class="chat-card">
+            <div class="avatar" style="background: #00a884;"><i class="fas fa-user"></i></div>
+            <div class="chat-details">
+                <h4>Client: Sarah <span>Yesterday</span></h4>
+                <p>Can I pay via Pi Wallet?</p>
             </div>
         </div>
     </div>
 
-    <div id="dashboard" class="page">
-        <div class="card">
-            <h3>Sales Analytics</h3>
-            <div class="stat-grid">
-                <div class="stat-box"><span class="val">3,450 Pi</span><span>Revenue</span></div>
-                <div class="stat-box"><span class="val">128</span><span>Clients</span></div>
-            </div>
+    <div id="status" class="page">
+        <div class="stat-card">
+            <h3 style="margin-top:0;">Business Analytics</h3>
+            <p>Total Revenue: <strong>4,250 Pi</strong></p>
+            <p>Active Nodes: <strong>12</strong></p>
         </div>
-        <div class="card">
-            <h3>Loyalty Program</h3>
-            <p>560 Points Distributed to customers.</p>
+        <div class="stat-card">
+            <h3>Recent Activity</h3>
+            <p style="color: #667781; font-size: 14px;">• Order #882 confirmed (100 Pi)</p>
+            <p style="color: #667781; font-size: 14px;">• New client registered via SDK</p>
         </div>
     </div>
 
-    <div id="catalog" class="page">
-        <div class="product-card">
-            <div class="product-img"><i class="fas fa-box-open" style="font-size:40px;"></i></div>
-            <div class="product-body">
-                <h3>Premium Business License</h3>
-                <p style="color:#666;">Full CRM & AI Automation tools.</p>
-                <p style="font-weight:bold; color:var(--wa-green); font-size:18px;">100 Pi</p>
-                <button class="pay-btn" onclick="alert('Connecting to Pi Wallet Securely...')">
-                    <i class="fab fa-ethereum"></i> Pay with Pi
-                </button>
-            </div>
+    <div id="calls" class="page">
+        <div class="stat-card" style="text-align: center;">
+            <i class="fab fa-ethereum" style="font-size: 50px; color: var(--pi-purple); margin-bottom: 15px;"></i>
+            <h3>Pi Payment Gateway</h3>
+            <p>Integrated Business License</p>
+            <button class="pi-btn" onclick="alert('Connecting to Pi Sandbox...')">
+                PAY 50 PI
+            </button>
         </div>
     </div>
-</div>
 
-<div id="chat-window">
-    <div class="chat-header">
-        <i class="fas fa-arrow-left" onclick="closeChat()" style="margin-right:15px; cursor: pointer;"></i>
-        <span id="chat-title" style="font-weight:600;">Chat</span>
-    </div>
-    <div style="flex:1; padding:20px; overflow-y:auto;">
-        <div style="background:white; padding:10px; border-radius:10px; max-width:80%; box-shadow:0 1px 2px rgba(0,0,0,0.1);">
-            Welcome Rostom. All communications are secure and peer-to-peer.
-        </div>
-    </div>
-    <div class="chat-footer">
-        <i class="far fa-smile"></i>
-        <input type="text" placeholder="Type a message...">
-        <i class="fas fa-microphone"></i>
-    </div>
-</div>
+    <script>
+        // 1. Navigation Logic
+        function switchPage(pageId, tabElement) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active-tab'));
+            
+            document.getElementById(pageId).classList.add('active-page');
+            tabElement.classList.add('active-tab');
+        }
 
-<script>
-    function nav(id, el) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active-tab'));
-        document.getElementById(id).classList.add('active-page');
-        el.classList.add('active-tab');
-    }
-    function openChat(name) {
-        document.getElementById('chat-title').innerText = name;
-        document.getElementById('chat-window').style.display = 'flex';
-    }
-    function closeChat() {
-        document.getElementById('chat-window').style.display = 'none';
-    }
-</script>
+        // 2. Search Logic
+        function toggleSearch() {
+            const bar = document.getElementById('search-bar');
+            bar.style.display = (bar.style.display === 'flex') ? 'none' : 'flex';
+            if(bar.style.display === 'flex') document.getElementById('search-input').focus();
+        }
 
+        function doSearch() {
+            let input = document.getElementById('search-input').value.toLowerCase();
+            let cards = document.querySelectorAll('.chat-card');
+            cards.forEach(card => {
+                let text = card.innerText.toLowerCase();
+                card.style.display = text.includes(input) ? "flex" : "none";
+            });
+        }
+
+        // 3. Menu Logic
+        function toggleMenu(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('main-menu');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // Close menu on click outside
+        window.onclick = function(event) {
+            document.getElementById('main-menu').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
